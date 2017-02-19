@@ -19,6 +19,5 @@ class AWS(BotPlugin):
         idlist = []
         ec2 = boto3.resource('ec2')
         for instance in ec2.instances.all():
-            idlist.append(instance.id)
-            
-        return idlist
+            #idlist.append(instance.id)
+            return instance.id
