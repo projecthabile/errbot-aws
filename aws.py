@@ -20,4 +20,4 @@ class AWS(BotPlugin):
         ec2 = boto3.resource('ec2')
         for instance in ec2.instances.all():
             #idlist.append(instance.id)
-            return instance.id
+            yield instance.id
