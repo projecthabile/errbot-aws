@@ -20,4 +20,9 @@ class AWS(BotPlugin):
         ec2 = boto3.resource('ec2')
         for instance in ec2.instances.all():
             #idlist.append(instance.id)
-            yield instance.id
+            #yield instance.id
+            self.send(msg.frm,
+                  instance.id,
+                  message_type=msg.type,
+                  in_reply_to=msg,
+                  groupchat_nick_reply=True) 
