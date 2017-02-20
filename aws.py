@@ -19,21 +19,16 @@ class AWS(BotPlugin):
     
     
     def _ec2_instance_details(self, name):
-        sec_gp = 'None'
+        
         ec2 = boto3.resource('ec2')
         instance = self._ec2_find_instance(name)
         if instance is not None:
-            if ec2.SecurityGroup(instance.security_groups[0]['GroupId']).tags is not None:
-                    for i in ec2.SecurityGroup(instance.security_groups[0]['GroupId']).tags:
-                        if i['Key'] == 'Name':
-                            sec_gp = i['Value']
             details = {
                 'id' : instance.id,
                 'status' : instance.state['Name'],
                 'ip_private' : instance.private_ip_address,
                 'ip_public'  : instance.public_ip_address,
-                'security_group' : sec_gp,            
-                'instance_type': instance.instance_type
+                'instance_type': instance.instance_type,
             }
         else:
             details = {'error': 'instance named {0} not found.'.format(name)}
@@ -73,8 +68,7 @@ class AWS(BotPlugin):
                   '{0} : {1}'.format(name, details),
                   message_type=msg.type,
                   in_reply_to=msg,
-                  groupchat_nick_reply=True)    
-    
+                  groupchat_nick_reply=True)
     
     
     
