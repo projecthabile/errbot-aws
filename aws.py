@@ -21,8 +21,11 @@ class AWS(BotPlugin):
         for instance in ec2.instances.all():
             #idlist.append(instance.id)
             #yield instance.id
+            for i in instance.tags:
+                if i['Key'] == 'Name':
+                    name = i['Value']
             self.send(msg.frm,
-                  instance.id,
-                  message_type=msg.type,
-                  in_reply_to=msg,
-                  groupchat_nick_reply=True) 
+                      '{0}: {1}'.format(instance.id, name),
+                      message_type=msg.type,
+                      in_reply_to=msg,
+                      groupchat_nick_reply=True) 
