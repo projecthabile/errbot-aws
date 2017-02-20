@@ -9,6 +9,7 @@ log = logging.getLogger(name='errbot.plugins.AWS')
 
 class AWS(BotPlugin):
     def _ec2_find_instance(self, name):
+        ec2 = boto3.resource('ec2')
         for instance in ec2.instances.all():
             for i in instance.tags:
                 if i['Key'] == 'Name':
@@ -16,10 +17,11 @@ class AWS(BotPlugin):
             if name == insname or name == instance.id:
                 return instance
     def _ec2_instance_details(self, name):
+        ec2 = boto3.resource('ec2')
         instance = self._ec2_find_instance(name)
         if instance is not None:
             if ec2.SecurityGroup(instance.security_groups[0]['GroupId']).tags is not None:
-                    for i in security_group.tags:
+                    for i in ec2.SecurityGroup(instance.security_groups[0]['GroupId']).tags:
                         if i['Key'] == 'Name':
                             sec_gp = i['Value']
             details = {
@@ -58,7 +60,7 @@ class AWS(BotPlugin):
            Example: !ec2 info i-0aa26058860a003d4
                     !ec2 info docker-machine
         '''
-        ec2 = boto3.resource('ec2')
+        
         name = args.pop(0)
         
         details = self._ec2_instance_details(name)
