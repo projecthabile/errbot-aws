@@ -73,7 +73,7 @@ class AWS(BotPlugin):
                   '{0} : {1}'.format(name, details),
                   message_type=msg.type,
                   in_reply_to=msg,
-                  group_nick_reply=True)    
+                  groupchat_nick_reply=True)    
     
     
     
