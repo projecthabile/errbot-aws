@@ -16,7 +16,10 @@ class AWS(BotPlugin):
                     insname = i['Value']
             if name == insname or name == instance.id:
                 return instance
+    
+    
     def _ec2_instance_details(self, name):
+        sec_gp = 'None'
         ec2 = boto3.resource('ec2')
         instance = self._ec2_find_instance(name)
         if instance is not None:
@@ -35,6 +38,8 @@ class AWS(BotPlugin):
         else:
             details = {'error': 'instance named {0} not found.'.format(name)}
         return details
+    
+    
     @botcmd(split_args_with=None)
     def ec2_list(self, msg, args):
         '''list all ec2 instances in account
