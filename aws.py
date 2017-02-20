@@ -58,7 +58,9 @@ class AWS(BotPlugin):
            Example: !ec2 info i-0aa26058860a003d4
                     !ec2 info docker-machine
         '''
+        ec2 = boto3.resource('ec2')
         name = args.pop(0)
+        
         details = self._ec2_instance_details(name)
         self.send(msg.frm,
                   '{0} : {1}'.format(name, details),
